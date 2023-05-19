@@ -1,52 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-
-interface Planet {
-  name: string;
-  population: string;
-  climate: string;
-  terrain: string;
-}
+import { useGetPlanets } from "../api/planet.api";
+import { Input, List, Skeleton } from "antd";
+import { getPlanetIdFromUrl } from "../utils/planet";
+import { Planet } from "../api/types";
 
 const PlanetsList = () => {
-  const [pageIndex, setPageIndex] = useState(1);
+  const [page, setPage] = useState<number | null>(1);
+  const [search, setSearch] = useState("");
+  const [count, setCount] = useState(10);
 
-  const { isLoading, isError, data } = useQuery(
-    ["planets", pageIndex],
-    async () => {
-      const response = await fetch(
-        `https://swapi.dev/api/planets/?page=${pageIndex}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const json = await response.json();
-      return json.results;
+  const { isLoading, isError, data } = useGetPlanets({
+    page: search.length > 0 ? null : page,
+    search,
+  });
+
+  useEffect(() => {
+    if (data?.count) {
+      setCount((prev) => (prev !== data.count ? data.count : prev));
     }
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  }, [data]);
 
   if (isError) {
     return <div>Error fetching planets</div>;
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-      {data?.map((planet: Planet) => (
-        <Link key={planet.name} to={`/planets/${planet.name}`}>
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200">
-            <h3 className="text-lg font-medium text-gray-800">{planet.name}</h3>
-            <p>Population: {planet.population}</p>
-            <p>Climate: {planet.climate}</p>
-            <p>Terrain: {planet.terrain}</p>
-          </div>
-        </Link>
-      ))}
+    <div className="flex flex-col space-y-3 bg-white rounded-xl p-5">
+      <List
+        itemLayout="vertical"
+        size="small"
+        pagination={{
+          defaultPageSize: 10,
+          total: count,
+          position: "top",
+          onChange: (pageNumber) => setPage(pageNumber),
+          showSizeChanger: false,
+        }}
+        header={
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by planets"
+          />
+        }
+        dataSource={data?.results ?? Array.from(Array(10).keys())}
+        renderItem={(planet: Planet) => {
+          const url = getPlanetIdFromUrl(planet.url ?? "");
+          return (
+            <Skeleton loading={isLoading} active>
+              <Link to={url}>
+                <List.Item className="group hover:bg-gray-100 cursor-pointer border-b border-b-gray-500">
+                  <List.Item.Meta
+                    title={
+                      <span className="group-hover:text-[#00b96b]">
+                        {planet.name}
+                      </span>
+                    }
+                    description={`${planet.population}-${planet.terrain}`}
+                  />
+                </List.Item>
+              </Link>
+            </Skeleton>
+          );
+        }}
+      />
     </div>
   );
 };

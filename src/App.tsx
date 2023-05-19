@@ -2,12 +2,14 @@ import React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import PlanetsList from "./pages/PlanetsList";
 import PlanetInfo from "./pages/PlanetInfo";
+import NotFound from "./pages/NotFound";
+import { MainLayout } from "./components/MainLayout";
 
 //TODO
-//1.Routing + params + 404 page
-//2.React query as hooks in api folder + types definition
-//2.1 loading/error handling
-//3.Page styles
+//Not remove count of pages
+//Main page list(split to components)
+//Sceleton for detail page
+//3.Detail page styles + modal update data(split to components)
 //4.Simple testing
 
 //remove git folder and make good tree !!!
@@ -15,76 +17,14 @@ import PlanetInfo from "./pages/PlanetInfo";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<MainLayout />}>
         <Route index element={<PlanetsList />} />
         <Route path="/:id" element={<PlanetInfo />} />
 
-        <Route path="*" element={<NoMatch />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
 }
 
 export default App;
-
-function Layout() {
-  return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <hr />
-
-      <Outlet />
-    </div>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
-
-function NoMatch() {
-  return (
-    <div>
-      <h2>Nothing to see here!</h2>
-      <p>
-        <Link to="/">Go to the home page</Link>
-      </p>
-    </div>
-  );
-}
