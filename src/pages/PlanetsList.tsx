@@ -1,29 +1,28 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useGetPlanets } from "../api/planet.api";
-import { Input, List, Skeleton } from "antd";
-import { getPlanetIdFromUrl } from "../utils/planet";
+import React from "react";
+import { Button, Input, List } from "antd";
 import { Planet } from "../api/types";
+import { usePlanetsList } from "../components/PlanetsList/usePlanetsList";
+import { ListItem } from "../components/PlanetsList/ListItem";
 
 const PlanetsList = () => {
-  const [page, setPage] = useState<number | null>(1);
-  const [search, setSearch] = useState("");
-  const [count, setCount] = useState(10);
-
-  const { isLoading, isError, data } = useGetPlanets({
-    page: search.length > 0 ? null : page,
+  const {
+    count,
+    data,
+    isError,
+    isLoading,
+    refetch,
     search,
-  });
-
-  useEffect(() => {
-    if (data?.count) {
-      setCount((prev) => (prev !== data.count ? data.count : prev));
-    }
-  }, [data]);
+    setPage,
+    setSearch,
+  } = usePlanetsList();
 
   if (isError) {
-    return <div>Error fetching planets</div>;
+    return (
+      <div className="flex items-center space-x-2">
+        <span>Error fetching planets.</span>
+        <Button onClick={() => refetch()}>Try Again</Button>
+      </div>
+    );
   }
 
   return (
@@ -47,23 +46,7 @@ const PlanetsList = () => {
         }
         dataSource={data?.results ?? Array.from(Array(10).keys())}
         renderItem={(planet: Planet) => {
-          const url = getPlanetIdFromUrl(planet.url ?? "");
-          return (
-            <Skeleton loading={isLoading} active>
-              <Link to={url}>
-                <List.Item className="group hover:bg-gray-100 cursor-pointer border-b border-b-gray-500">
-                  <List.Item.Meta
-                    title={
-                      <span className="group-hover:text-[#00b96b]">
-                        {planet.name}
-                      </span>
-                    }
-                    description={`${planet.population}-${planet.terrain}`}
-                  />
-                </List.Item>
-              </Link>
-            </Skeleton>
-          );
+          return <ListItem planet={planet} isLoading={isLoading} />;
         }}
       />
     </div>

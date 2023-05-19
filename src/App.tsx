@@ -7,7 +7,7 @@ import { MainLayout } from "./components/MainLayout";
 
 //TODO
 //Not remove count of pages
-//Main page list(split to components)
+//Main page list(split to components) + borders for items
 //Sceleton for detail page
 //3.Detail page styles + modal update data(split to components)
 //4.Simple testing

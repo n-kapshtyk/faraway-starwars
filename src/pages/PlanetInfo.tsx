@@ -1,20 +1,26 @@
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Modal, Form, Input, Button, Spin } from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Form, Input, Button, Spin, Row, Col, Statistic } from "antd";
 import { useParams } from "react-router";
 import { useGetPlanetById } from "../api/planet.api";
-import { Link } from "react-router-dom";
 import { AppLink } from "../components/AppLink";
+import { Planet } from "../api/types";
 
 const PlanetInfo: React.FC = () => {
   const planetId = useParams().id as string;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [planetData, setPlanetData] = useState<Planet | null>(null);
   const { isLoading, error, data } = useGetPlanetById({ planetId });
 
-  const handleEdit = (values: any) => {
-    console.log(values);
+  const handleEdit = (values: Planet) => {
+    setPlanetData(values);
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    if (data) {
+      setPlanetData(data);
+    }
+  }, [data]);
 
   if (isLoading) return <Spin />;
   if (error) return <div>Error: {error as string}</div>;
@@ -22,14 +28,24 @@ const PlanetInfo: React.FC = () => {
   return (
     <>
       <AppLink to="/">Back to planets list</AppLink>
-      <h1>{data?.name}</h1>
-      <p>Climate: {data?.climate}</p>
-      <p>Terrain: {data?.terrain}</p>
-      <p>Population: {data?.population}</p>
-      <Button onClick={() => setIsModalVisible(true)}>Edit planet</Button>
+      <h1 className="w-full text-2xl font-semibold py-4 flex items-center space-x-2">
+        <span>{planetData?.name}</span>
+        <Button onClick={() => setIsModalVisible(true)}>Edit</Button>
+      </h1>
+      <Row gutter={16} className="space-y-2">
+        <Col span={24}>
+          <Statistic title="Climate" value={planetData?.climate} />
+        </Col>
+        <Col span={24}>
+          <Statistic title="Terrain" value={planetData?.terrain} />
+        </Col>
+        <Col span={24}>
+          <Statistic title="Population" value={planetData?.population} />
+        </Col>
+      </Row>
       <Modal
         title="Edit planet"
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
