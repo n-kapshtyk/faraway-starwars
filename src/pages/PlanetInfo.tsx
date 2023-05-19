@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Button, Spin, Row, Col, Statistic } from "antd";
+import {
+  Modal,
+  Form,
+  Input,
+  Button,
+  Spin,
+  Row,
+  Col,
+  Statistic,
+  Skeleton,
+} from "antd";
 import { useParams } from "react-router";
 import { useGetPlanetById } from "../api/planet.api";
 import { AppLink } from "../components/AppLink";
@@ -22,27 +32,35 @@ const PlanetInfo: React.FC = () => {
     }
   }, [data]);
 
-  if (isLoading) return <Spin />;
-  if (error) return <div>Error: {error as string}</div>;
+  if (error)
+    return (
+      <div className="flex items-center space-x-2">
+        <span>Error: {error as string}</span>
+        <AppLink to="/">Back to planets list</AppLink>
+      </div>
+    );
 
   return (
     <>
       <AppLink to="/">Back to planets list</AppLink>
-      <h1 className="w-full text-2xl font-semibold py-4 flex items-center space-x-2">
-        <span>{planetData?.name}</span>
-        <Button onClick={() => setIsModalVisible(true)}>Edit</Button>
-      </h1>
-      <Row gutter={16} className="space-y-2">
-        <Col span={24}>
-          <Statistic title="Climate" value={planetData?.climate} />
-        </Col>
-        <Col span={24}>
-          <Statistic title="Terrain" value={planetData?.terrain} />
-        </Col>
-        <Col span={24}>
-          <Statistic title="Population" value={planetData?.population} />
-        </Col>
-      </Row>
+      <Skeleton active loading={isLoading}>
+        <h1 className="w-full text-2xl font-semibold py-4 flex items-center space-x-2">
+          <span>{planetData?.name}</span>
+          <Button onClick={() => setIsModalVisible(true)}>Edit</Button>
+        </h1>
+        <Row gutter={16} className="space-y-2">
+          <Col span={24}>
+            <Statistic title="Climate" value={planetData?.climate} />
+          </Col>
+          <Col span={24}>
+            <Statistic title="Terrain" value={planetData?.terrain} />
+          </Col>
+          <Col span={24}>
+            <Statistic title="Population" value={planetData?.population} />
+          </Col>
+        </Row>
+      </Skeleton>
+
       <Modal
         title="Edit planet"
         open={isModalVisible}
