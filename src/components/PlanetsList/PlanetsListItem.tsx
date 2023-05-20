@@ -16,12 +16,12 @@ export const PlanetsListItem: React.FC<PlanetsListItemProps> = ({
   const url = getPlanetIdFromUrl(planet.url ?? "");
   return (
     <Skeleton loading={isLoading} active>
-      <Link to={url}>
+      <Link data-ui-purpose="planet-list-item" to={url}>
         <List.Item className="group hover:bg-gray-100 cursor-pointer rounded border-b border-b-gray-500">
           <List.Item.Meta
             title={
               <span
-                data-ui-purpose="planet-list-item"
+                data-ui-purpose="planet-list-item-title"
                 className="text-xl underline group-hover:text-[#00b96b]"
               >
                 {planet.name}

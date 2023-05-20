@@ -24,7 +24,7 @@ const skeletonList = Array.from(
     .map((planet, index) => ({ ...planet, name: planet.name + index }))
 );
 interface PlanetsListProps {
-  count: number;
+  count: number | null;
   setPage: Dispatch<SetStateAction<number | null>>;
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
@@ -46,7 +46,7 @@ export const PlanetsList: React.FC<PlanetsListProps> = ({
       size="small"
       pagination={{
         defaultPageSize: 10,
-        total: count,
+        total: count ?? 0,
         position: "top",
         onChange: (pageNumber) => setPage(pageNumber),
         showSizeChanger: false,

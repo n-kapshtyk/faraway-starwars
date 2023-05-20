@@ -20,7 +20,7 @@ export const firstPlanet: Planet = {
   films: ["https://swapi.dev/api/films/5/"],
   created: "2014-12-10T12:45:06.577000Z",
   edited: "2014-12-20T20:58:18.434000Z",
-  url: "https://swapi.dev/api/planets/10/",
+  url: "https://swapi.dev/api/planets/9",
 };
 
 const secondPlanet: Planet = {
@@ -46,7 +46,7 @@ const secondPlanet: Planet = {
   ],
   created: "2014-12-10T11:54:13.921000Z",
   edited: "2014-12-20T20:58:18.432000Z",
-  url: "https://swapi.dev/api/planets/9/",
+  url: "https://swapi.dev/api/planets/10",
 };
 
 const getPlanetsResponse: PlanetsListResponse = {

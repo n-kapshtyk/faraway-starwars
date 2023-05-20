@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 
 test("Renders planets page correctly", async () => {
   const query = mockUseGetPlanets();
-  // Setup
+
   const component = render(
     <BrowserRouter>
       <QueryClientProvider client={new QueryClient()}>
@@ -23,9 +23,14 @@ test("Renders planets page correctly", async () => {
   const planets = await waitFor(() =>
     component.getAllByTestId("planet-list-item")
   );
+  const planetsTitles = await waitFor(() =>
+    component.getAllByTestId("planet-list-item-title")
+  );
 
   expect(planets).toHaveLength(2);
-  expect(planets.map((planet) => planet.textContent)).toEqual([
+  expect(planets[0]).toHaveAttribute("href", "/9/");
+  expect(planets[1]).toHaveAttribute("href", "/10/");
+  expect(planetsTitles.map((planet) => planet.textContent)).toEqual([
     "Kamino",
     "Coruscant",
   ]);
