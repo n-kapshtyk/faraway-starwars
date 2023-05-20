@@ -20,7 +20,10 @@ export const PlanetsListItem: React.FC<PlanetsListItemProps> = ({
         <List.Item className="group hover:bg-gray-100 cursor-pointer rounded border-b border-b-gray-500">
           <List.Item.Meta
             title={
-              <span className="text-xl underline group-hover:text-[#00b96b]">
+              <span
+                data-ui-purpose="planet-list-item"
+                className="text-xl underline group-hover:text-[#00b96b]"
+              >
                 {planet.name}
               </span>
             }

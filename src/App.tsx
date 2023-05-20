@@ -1,18 +1,9 @@
 import React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Planets from "./pages/Planets";
 import PlanetInfo from "./pages/PlanetInfo";
 import NotFound from "./pages/NotFound";
 import { MainLayout } from "./components/MainLayout";
-
-//TODO
-//Not remove count of pages
-//Main page list(split to components) + borders for items
-//Sceleton for detail page
-//3.Detail page styles + modal update data(split to components)
-//4.Simple testing
-
-//remove git folder and make good tree !!!
 
 function App() {
   return (

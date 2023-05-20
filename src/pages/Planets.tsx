@@ -32,7 +32,7 @@ const Planets = () => {
         search={search}
         setPage={setPage}
         setSearch={setSearch}
-        data={data?.results ?? Array.from(Array(10).keys())}
+        data={data?.results}
       />
     </div>
   );

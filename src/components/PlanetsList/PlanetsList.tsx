@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Input, List } from "antd";
 import { Planet } from "../../api/types";
 import { PlanetsListItem } from "./PlanetsListItem";
+import { firstPlanet } from "../../__tests__/mockApi/planet.api.mock";
 
 interface PlanetsListProps {
   count: number;
@@ -38,7 +39,7 @@ export const PlanetsList: React.FC<PlanetsListProps> = ({
           placeholder="Search by planets"
         />
       }
-      dataSource={data}
+      dataSource={data ?? Array.from(Array(10).fill(firstPlanet))}
       renderItem={(planet: Planet) => {
         return <PlanetsListItem planet={planet} isLoading={isLoading} />;
       }}

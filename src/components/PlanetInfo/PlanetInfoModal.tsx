@@ -9,12 +9,12 @@ interface PlanetInfoModalProps {
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-export function PlanetInfoModal({
+export const PlanetInfoModal: React.FC<PlanetInfoModalProps> = ({
   planetData,
   handleEdit,
   isModalVisible,
   setIsModalVisible,
-}: PlanetInfoModalProps) {
+}) => {
   return (
     <Modal
       title="Edit planet"
@@ -51,4 +51,4 @@ export function PlanetInfoModal({
       </Form>
     </Modal>
   );
-}
+};
