@@ -8,4 +8,7 @@ export default {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testEnvironmentOptions: {
+    url: "https://swapi.dev/api",
+  },
 };

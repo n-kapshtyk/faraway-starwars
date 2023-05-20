@@ -63,7 +63,7 @@ export function mockUseGetPlanets(
 }
 
 export function mockUseGetPlanetById(planet: Planet = firstPlanet) {
-  return getNock()
-    .get(`/planets/${getPlanetIdFromUrl(planet.url)}`)
-    .reply(200, planet);
+  const planetId = getPlanetIdFromUrl(planet.url);
+
+  return getNock().get(`/planets/${planetId}`).reply(200, planet);
 }

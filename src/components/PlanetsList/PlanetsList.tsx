@@ -2,8 +2,27 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Input, List } from "antd";
 import { Planet } from "../../api/types";
 import { PlanetsListItem } from "./PlanetsListItem";
-import { firstPlanet } from "../../__tests__/mockApi/planet.api.mock";
 
+const skeletonList = Array.from(
+  Array(10)
+    .fill({
+      name: "Planet",
+      rotation_period: "",
+      orbital_period: "",
+      diameter: "",
+      climate: "",
+      gravity: "",
+      terrain: "",
+      surface_water: "",
+      population: "",
+      residents: [],
+      films: [],
+      created: "",
+      edited: "",
+      url: "",
+    })
+    .map((planet, index) => ({ ...planet, name: planet.name + index }))
+);
 interface PlanetsListProps {
   count: number;
   setPage: Dispatch<SetStateAction<number | null>>;
@@ -39,7 +58,8 @@ export const PlanetsList: React.FC<PlanetsListProps> = ({
           placeholder="Search by planets"
         />
       }
-      dataSource={data ?? Array.from(Array(10).fill(firstPlanet))}
+      rowKey={"name"}
+      dataSource={data ?? skeletonList}
       renderItem={(planet: Planet) => {
         return <PlanetsListItem planet={planet} isLoading={isLoading} />;
       }}

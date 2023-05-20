@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { usePlanetsList } from "../components/PlanetsList/usePlanetsList";
 import { PlanetsList } from "../components/PlanetsList/PlanetsList";
 
@@ -14,6 +14,14 @@ const Planets = () => {
     setPage,
     setSearch,
   } = usePlanetsList();
+
+  if (!count && isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <Spin />
+      </div>
+    );
+  }
 
   if (isError) {
     return (
