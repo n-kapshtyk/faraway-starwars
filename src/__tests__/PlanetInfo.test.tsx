@@ -35,7 +35,7 @@ test("Renders planet detail page correctly", async () => {
     ).toEqual(firstPlanet.population);
   });
 
-  fireEvent.click(component.getByText("Edit planet"));
+  fireEvent.click(component.getByText(/Edit/));
 
   fireEvent.change(component.getByLabelText("Name"), {
     target: { value: "New Name" },

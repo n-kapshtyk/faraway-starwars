@@ -21,19 +21,29 @@ export const PlanetDetail: React.FC<PlanetDetailProps> = ({
       </h1>
       <Row gutter={16} className="space-y-2">
         <Col span={24}>
-          <Statistic title="Climate" value={planetData?.climate} />
+          <Statistic
+            title="Climate"
+            formatter={(value) => (
+              <span data-ui-purpose="planet-detail-climate">{value}</span>
+            )}
+            value={planetData?.climate}
+          />
         </Col>
         <Col span={24}>
           <Statistic
-            data-ui-purpose="planet-detail-terrain"
             title="Terrain"
+            formatter={(value) => (
+              <span data-ui-purpose="planet-detail-terrain">{value}</span>
+            )}
             value={planetData?.terrain}
           />
         </Col>
         <Col span={24}>
           <Statistic
-            data-ui-purpose="planet-detail-population"
             title="Population"
+            formatter={(value) => (
+              <span data-ui-purpose="planet-detail-population">{value}</span>
+            )}
             value={planetData?.population}
           />
         </Col>
