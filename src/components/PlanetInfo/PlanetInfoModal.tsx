@@ -1,6 +1,7 @@
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, InputNumber, Modal } from "antd";
 import React, { Dispatch, SetStateAction } from "react";
 import { Planet } from "../../api/types";
+import { formatNumber } from "../../utils/misc";
 
 interface PlanetInfoModalProps {
   planetData: Planet | null;
@@ -45,7 +46,11 @@ export const PlanetInfoModal: React.FC<PlanetInfoModalProps> = ({
           name="population"
           initialValue={planetData?.population}
         >
-          <Input />
+          <InputNumber
+            className="w-full"
+            formatter={(value) => formatNumber(value as string)}
+            parser={(value) => value!.replace(/\$\s?|(,*)/g, "")}
+          />
         </Form.Item>
         <Button htmlType="submit">Save planet</Button>
       </Form>

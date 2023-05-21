@@ -33,16 +33,14 @@ const Planets = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-3 bg-white rounded-xl p-5">
-      <PlanetsList
-        count={count}
-        isLoading={isLoading}
-        search={search}
-        setPage={setPage}
-        setSearch={setSearch}
-        data={data?.results}
-      />
-    </div>
+    <PlanetsList
+      count={count}
+      isLoading={isLoading}
+      search={search}
+      setPage={setPage}
+      setSearch={setSearch}
+      data={data?.results}
+    />
   );
 };
 

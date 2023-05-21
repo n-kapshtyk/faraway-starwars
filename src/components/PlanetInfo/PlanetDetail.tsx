@@ -1,6 +1,7 @@
 import { Button, Col, Row, Skeleton, Statistic } from "antd";
 import React, { Dispatch, SetStateAction } from "react";
 import { Planet } from "../../api/types";
+import { formatNumber } from "../../utils/misc";
 
 interface PlanetDetailProps {
   isLoading: boolean;
@@ -42,7 +43,9 @@ export const PlanetDetail: React.FC<PlanetDetailProps> = ({
           <Statistic
             title="Population"
             formatter={(value) => (
-              <span data-ui-purpose="planet-detail-population">{value}</span>
+              <span data-ui-purpose="planet-detail-population">
+                {formatNumber(value)}
+              </span>
             )}
             value={planetData?.population}
           />

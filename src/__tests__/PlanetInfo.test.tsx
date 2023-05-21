@@ -4,6 +4,7 @@ import { firstPlanet, mockUseGetPlanetById } from "./mockApi/planet.api.mock";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PlanetInfo from "../pages/PlanetInfo";
 import { BrowserRouter } from "react-router-dom";
+import { formatNumber } from "../utils/misc";
 
 test("Renders planet detail page correctly", async () => {
   const query = mockUseGetPlanetById();
@@ -16,10 +17,12 @@ test("Renders planet detail page correctly", async () => {
     </BrowserRouter>
   );
 
+  //check get planet query is done
   await waitFor(() => {
     expect(query.isDone).toBeTruthy();
   });
 
+  //check planet info
   await waitFor(() => {
     expect(component.getByTestId("planet-detail-name").textContent).toEqual(
       firstPlanet.name
@@ -32,9 +35,10 @@ test("Renders planet detail page correctly", async () => {
     );
     expect(
       component.getByTestId("planet-detail-population").textContent
-    ).toEqual(firstPlanet.population);
+    ).toEqual(formatNumber(firstPlanet.population));
   });
 
+  //opening modal and changing values
   fireEvent.click(component.getByText(/Edit/));
 
   fireEvent.change(component.getByLabelText("Name"), {
@@ -47,11 +51,12 @@ test("Renders planet detail page correctly", async () => {
     target: { value: "Mountains" },
   });
   fireEvent.change(component.getByLabelText("Population"), {
-    target: { value: "1000000" },
+    target: { value: "3,000,000,000" },
   });
 
   fireEvent.submit(component.getByRole("button", { name: "Save planet" }));
 
+  //check updated values from edit modal form
   await waitFor(() => {
     expect(component.getByTestId("planet-detail-name").textContent).toEqual(
       "New Name"
@@ -64,6 +69,6 @@ test("Renders planet detail page correctly", async () => {
     );
     expect(
       component.getByTestId("planet-detail-population").textContent
-    ).toEqual("1000000");
+    ).toEqual("3,000,000,000");
   });
 });

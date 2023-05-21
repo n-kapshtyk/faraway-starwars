@@ -17,7 +17,7 @@ export const PlanetsListItem: React.FC<PlanetsListItemProps> = ({
   return (
     <Skeleton loading={isLoading} active>
       <Link data-ui-purpose="planet-list-item" to={url}>
-        <List.Item className="group hover:bg-gray-100 cursor-pointer rounded border-b border-b-gray-500">
+        <List.Item className="group hover:bg-gray-100 cursor-pointer overflow-hidden border-b border-b-gray-500">
           <List.Item.Meta
             title={
               <span

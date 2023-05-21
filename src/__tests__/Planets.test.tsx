@@ -16,10 +16,12 @@ test("Renders planets page correctly", async () => {
     </BrowserRouter>
   );
 
+  //Check get planets query is done
   await waitFor(() => {
     expect(query.isDone).toBeTruthy();
   });
 
+  //Check number of planets in list and their content
   const planets = await waitFor(() =>
     component.getAllByTestId("planet-list-item")
   );
@@ -28,8 +30,8 @@ test("Renders planets page correctly", async () => {
   );
 
   expect(planets).toHaveLength(2);
-  expect(planets[0]).toHaveAttribute("href", "/9/");
-  expect(planets[1]).toHaveAttribute("href", "/10/");
+  expect(planets[0]).toHaveAttribute("href", "/9");
+  expect(planets[1]).toHaveAttribute("href", "/10");
   expect(planetsTitles.map((planet) => planet.textContent)).toEqual([
     "Kamino",
     "Coruscant",
